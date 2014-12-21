@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+class SeriesModel{
+    /*
+    *   Main Model
+    *   
+    */
+    
+    //Constructor
+    init(){
+        
+    }
+}
