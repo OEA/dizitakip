@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		95CB57531A59478200FC9A7E /* SystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB57521A59478200FC9A7E /* SystemModel.swift */; };
+		95CB57551A59479800FC9A7E /* SeriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB57541A59479800FC9A7E /* SeriesModel.swift */; };
+		95CB57571A59487200FC9A7E /* ControllerInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB57561A59487200FC9A7E /* ControllerInit.swift */; };
+		95CB57591A595D9900FC9A7E /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB57581A595D9900FC9A7E /* HomeController.swift */; };
+		95CB575B1A59638E00FC9A7E /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB575A1A59638E00FC9A7E /* RegisterController.swift */; };
+		95CB575D1A59703400FC9A7E /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB575C1A59703400FC9A7E /* ProfileController.swift */; };
+		95CB57631A59B5AD00FC9A7E /* SeriesTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB57621A59B5AD00FC9A7E /* SeriesTableCell.swift */; };
+		95CB57651A59B8E100FC9A7E /* SeriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB57641A59B8E100FC9A7E /* SeriesViewController.swift */; };
 		95ED48EF1A1695DF004F9D62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED48EE1A1695DF004F9D62 /* AppDelegate.swift */; };
 		95ED48F11A1695DF004F9D62 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED48F01A1695DF004F9D62 /* ViewController.swift */; };
 		95ED48F41A1695DF004F9D62 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95ED48F21A1695DF004F9D62 /* Main.storyboard */; };
@@ -26,6 +34,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		95CB57521A59478200FC9A7E /* SystemModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemModel.swift; sourceTree = "<group>"; };
+		95CB57541A59479800FC9A7E /* SeriesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeriesModel.swift; sourceTree = "<group>"; };
+		95CB57561A59487200FC9A7E /* ControllerInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerInit.swift; sourceTree = "<group>"; };
+		95CB57581A595D9900FC9A7E /* HomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		95CB575A1A59638E00FC9A7E /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
+		95CB575C1A59703400FC9A7E /* ProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
+		95CB57621A59B5AD00FC9A7E /* SeriesTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeriesTableCell.swift; sourceTree = "<group>"; };
+		95CB57641A59B8E100FC9A7E /* SeriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeriesViewController.swift; sourceTree = "<group>"; };
 		95ED48E91A1695DF004F9D62 /* dizitakip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dizitakip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95ED48ED1A1695DF004F9D62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95ED48EE1A1695DF004F9D62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,11 +94,19 @@
 			isa = PBXGroup;
 			children = (
 				95ED48EE1A1695DF004F9D62 /* AppDelegate.swift */,
-				95ED48F01A1695DF004F9D62 /* ViewController.swift */,
-				95ED48F21A1695DF004F9D62 /* Main.storyboard */,
 				95ED48F51A1695DF004F9D62 /* Images.xcassets */,
 				95ED48F71A1695DF004F9D62 /* LaunchScreen.xib */,
+				95ED48F21A1695DF004F9D62 /* Main.storyboard */,
 				95ED48EC1A1695DF004F9D62 /* Supporting Files */,
+				95ED48F01A1695DF004F9D62 /* ViewController.swift */,
+				95CB57521A59478200FC9A7E /* SystemModel.swift */,
+				95CB57541A59479800FC9A7E /* SeriesModel.swift */,
+				95CB57561A59487200FC9A7E /* ControllerInit.swift */,
+				95CB57581A595D9900FC9A7E /* HomeController.swift */,
+				95CB575A1A59638E00FC9A7E /* RegisterController.swift */,
+				95CB575C1A59703400FC9A7E /* ProfileController.swift */,
+				95CB57621A59B5AD00FC9A7E /* SeriesTableCell.swift */,
+				95CB57641A59B8E100FC9A7E /* SeriesViewController.swift */,
 			);
 			path = dizitakip;
 			sourceTree = "<group>";
@@ -161,6 +185,7 @@
 				TargetAttributes = {
 					95ED48E81A1695DF004F9D62 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 26A7HBULG3;
 					};
 					95ED48FD1A1695DF004F9D62 = {
 						CreatedOnToolsVersion = 6.1;
@@ -212,8 +237,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95CB57571A59487200FC9A7E /* ControllerInit.swift in Sources */,
+				95CB57631A59B5AD00FC9A7E /* SeriesTableCell.swift in Sources */,
+				95CB57551A59479800FC9A7E /* SeriesModel.swift in Sources */,
+				95CB57651A59B8E100FC9A7E /* SeriesViewController.swift in Sources */,
 				95ED48F11A1695DF004F9D62 /* ViewController.swift in Sources */,
+				95CB575B1A59638E00FC9A7E /* RegisterController.swift in Sources */,
+				95CB57531A59478200FC9A7E /* SystemModel.swift in Sources */,
 				95ED48EF1A1695DF004F9D62 /* AppDelegate.swift in Sources */,
+				95CB57591A595D9900FC9A7E /* HomeController.swift in Sources */,
+				95CB575D1A59703400FC9A7E /* ProfileController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +440,7 @@
 				95ED490A1A1695DF004F9D62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		95ED490B1A1695DF004F9D62 /* Build configuration list for PBXNativeTarget "dizitakipTests" */ = {
 			isa = XCConfigurationList;
@@ -415,6 +449,7 @@
 				95ED490D1A1695DF004F9D62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
