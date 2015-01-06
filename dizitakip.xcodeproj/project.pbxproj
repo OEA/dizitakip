@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		951FD43A1A5BBEE900932B10 /* NavigationLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951FD4391A5BBEE900932B10 /* NavigationLogin.swift */; };
 		95CB57531A59478200FC9A7E /* SystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB57521A59478200FC9A7E /* SystemModel.swift */; };
 		95CB57551A59479800FC9A7E /* SeriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB57541A59479800FC9A7E /* SeriesModel.swift */; };
 		95CB57571A59487200FC9A7E /* ControllerInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB57561A59487200FC9A7E /* ControllerInit.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		951FD4391A5BBEE900932B10 /* NavigationLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationLogin.swift; sourceTree = "<group>"; };
 		95CB57521A59478200FC9A7E /* SystemModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemModel.swift; sourceTree = "<group>"; };
 		95CB57541A59479800FC9A7E /* SeriesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeriesModel.swift; sourceTree = "<group>"; };
 		95CB57561A59487200FC9A7E /* ControllerInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerInit.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				95CB575C1A59703400FC9A7E /* ProfileController.swift */,
 				95CB57621A59B5AD00FC9A7E /* SeriesTableCell.swift */,
 				95CB57641A59B8E100FC9A7E /* SeriesViewController.swift */,
+				951FD4391A5BBEE900932B10 /* NavigationLogin.swift */,
 			);
 			path = dizitakip;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 			files = (
 				95CB57571A59487200FC9A7E /* ControllerInit.swift in Sources */,
 				95CB57631A59B5AD00FC9A7E /* SeriesTableCell.swift in Sources */,
+				951FD43A1A5BBEE900932B10 /* NavigationLogin.swift in Sources */,
 				95CB57551A59479800FC9A7E /* SeriesModel.swift in Sources */,
 				95CB57651A59B8E100FC9A7E /* SeriesViewController.swift in Sources */,
 				95ED48F11A1695DF004F9D62 /* ViewController.swift in Sources */,

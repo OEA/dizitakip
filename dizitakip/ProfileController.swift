@@ -28,10 +28,12 @@ class ProfileController: UIViewController {
         
     }
       @IBAction func logoutTapped(sender: AnyObject) {
+        
         userDefaults.setBool(false, forKey: "isLoggedIn")
         userDefaults.setObject(nil, forKey: "profile")
-        let vc : AnyObject! = self.storyboard?.instantiateViewControllerWithIdentifier("Login")
-        self.showViewController(vc as UIViewController, sender: vc)
+        let vc : AnyObject! = self.storyboard?.instantiateViewControllerWithIdentifier("LoginNavigation")
+        self.presentViewController(vc as UIViewController, animated: true, completion: nil)
+       // self.showViewController(vc, sender: vc)
 
     }
     
