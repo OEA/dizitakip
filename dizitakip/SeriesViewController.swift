@@ -10,22 +10,31 @@ import Foundation
 import UIKit
 
 class SeriesViewController : UITableViewController{
-    let transportItems = ["Person Of Interest","Medcezir","Game of Thrones","Gotham","Silicon Valley", "Da Vinci's Demons", "Arrow"]
-    let images = ["d1d7e4079b8c","3ebcca824e0e","557d6301f200","32cae652a495","310a43ac848e","fe4cd354ded7","979ddc397a09"]
-    let genres = ["Action | Drama | Mystery", "Comedy | Drama | Romance", "Adventure | Drama | Fantasy", "Crime | Drama | Thriller", "Comedy", "Adventure | Drama | Fantasy", "Action | Adventure | Crime"]
+    
+    
+    @IBOutlet var tblView: UITableView!
+    let seriesModel: SeriesModel = SeriesModel()
+    var series: [[String:String]]!
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return transportItems.count
+        return series.count
     }
     override func viewDidLoad() {
-        
+        seriesModel.setTop10()
+        series = seriesModel.top10
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var cell = tableView.dequeueReusableCellWithIdentifier("SeriesTableCell") as SeriesTableCell
         
-        cell.seriesTitle.text = transportItems[indexPath.row]
-        cell.seriesGenres.text = genres[indexPath.row]
-        var apiUrl = "http://localhost/imdb/images/"+images[indexPath.row]+".jpg"
+        cell.seriesTitle.text = series[indexPath.row]["series_name"]
+        cell.seriesGenres.text = series[indexPath.row]["series_genres"]
+        cell.seriesImdb.text = "IMDB: "+series[indexPath.row]["series_rating"]!
+        cell.seriesDate.text = " "+series[indexPath.row]["series_lastepisode"]!+" "
+        cell.seriesDate.layer.masksToBounds = true
+        cell.seriesDate.layer.cornerRadius = 4.0
+        
+        var apiUrl = "http://localhost/imdb/"+series[indexPath.row]["series_img"]!
+        
         
         if let nsurl = NSURL(string: apiUrl) {
             
@@ -77,6 +86,33 @@ class SeriesViewController : UITableViewController{
             blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
             alpha: CGFloat(1.0)
         )
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "seriesDetail"{
+            
+            let newVC = segue.destinationViewController as SeriesDetailViewController
+            let cell = sender as UITableViewCell
+            let indexPath = tblView.indexPathForCell(cell)
+            
+            println()
+        
+           /* newVC.seriesTitle!.text = "deneme"
+                          
+            var apiUrl = "http://localhost/imdb/"+series[1]["series_img"]!
+            
+            
+            if let nsurl = NSURL(string: apiUrl) {
+                
+                if let nsdata = NSData(contentsOfURL: nsurl) {
+                    
+                    //newVC.seriesImage.image = UIImage(data: nsdata)?
+                }
+                
+            }*/
+            
+                
+        }
     }
 
     
