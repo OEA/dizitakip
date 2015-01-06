@@ -15,4 +15,8 @@ class SeriesTableCell: UITableViewCell {
     @IBOutlet weak var seriesTitle: UILabel!
     @IBOutlet weak var seriesGenres: UILabel!
     @IBOutlet weak var showMore: UILabel!
+    @IBOutlet weak var seriesImdb: UILabel!
+    
+    @IBOutlet weak var seriesDate: UILabel!
+    
 }
