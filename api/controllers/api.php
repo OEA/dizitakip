@@ -6,7 +6,6 @@ class Api extends CI_Controller {
         parent::__construct();
         $this->load->model('api_model','api');
     }
-    
     public function login(){
         
         $_apikey = $this->input->get('apiKey',TRUE);
@@ -27,6 +26,15 @@ class Api extends CI_Controller {
         $_password = $this->input->get('password',TRUE);
         
         $data = $this->api->register($_apikey, $_apisecret, $_username, $_password, $_email);
+        echo json_encode($data);   
+    }
+    
+    public function getTop10(){
+        
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        
+        $data = $this->api->getTop10($_apikey, $_apisecret);
         echo json_encode($data);   
     }
 }
