@@ -91,7 +91,6 @@ class Api_Model extends CI_Model{
                         $data["result"] = $query->result();
                    
                 }
-               
             }
         }else{
             $data["status"] = "error";
@@ -153,6 +152,153 @@ class Api_Model extends CI_Model{
 		}
         $genres = substr($genres, 0, -2);
 		return $genres;
+    }
+    
+    public function likeSeries($_apikey, $_apisecret, $_seriesId, $_userId){
+        
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        if($query->num_rows()>0){
+            $this->db->where('user_id',$_userId);
+            $query = $this->db->get("users_meta");
+            $query_object = $query->result()[0];
+            $newfavorites = "";
+            $isDeleted = false;
+            if($query->num_rows>0){
+                //update
+                $query_object = $query->result()[0];
+                if($query_object->user_favoritedseries==""){
+                        $data["status"] = "success";
+                        $data["code"] = 200;
+                        $data["message"] = "Liked";
+                    
+                    $datas = array(
+                            'user_favoritedseries' => $_seriesId,
+                    );
+                    $this->db->where('user_id', $_userId);
+                    $this->db->update('users_meta', $datas); 
+                }else{
+                    $favorites = explode(",",$query_object->user_favoritedseries);
+                    if(in_array($_seriesId, $favorites)){
+                        $isDeleted = true;
+                        $data["status"] = "error";
+                        $data["code"] = 200;
+                        $data["message"] = "Unliked";
+                    }
+                    if(!$isDeleted){
+                        $newfavorites = $query_object->user_favoritedseries.", ".$_seriesId;
+                        $data["status"] = "success";
+                        $data["code"] = 200;
+                        $data["message"] = "Liked";
+                    }else{
+                        
+                        for($i=0;$i<count($favorites);$i++){
+                            if(!($_seriesId==$favorites[$i])){
+                                if($i==0){
+                                    $newfavorites .= $favorites[$i];  
+                                }else{
+                                    $newfavorites .= ", ".$favorites[$i];  
+                                } 
+                            }
+                        }
+                    }
+                    
+
+                    $datas = array(
+                            'user_favoritedseries' => $newfavorites,
+                    );
+                    $this->db->where('user_id', $_userId);
+                    $this->db->update('users_meta', $datas); 
+                   
+                }
+               
+            }else{
+                $data["status"] = "success";
+                $data["code"] = 200;
+                $data["message"] = "Liked";
+                //insert
+                
+                    $datas = array(
+                        'user_id' => $_userId,
+                        'user_favoritedseries' => $_seriesId,
+                    );	
+                $this->db->insert('users_meta', $datas); 
+            }
+            
+           
+            
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
+        
+    }
+    
+    public function isLikedSeries($_apikey, $_apisecret, $_seriesId, $_userId){
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        if($query->num_rows()>0){
+            $this->db->where('user_id',$_userId);
+            $query = $this->db->get("users_meta");
+            $query_object = $query->result()[0];
+            $favorited_series = $query_object->user_favoritedseries;
+            $array_ids = explode(",", $favorited_series);
+           
+            
+            if(in_array($_seriesId, $array_ids)){
+                $data["status"] = "success";
+                $data["message"] = "isLiked";
+                $data["code"] = 200;
+            }else{
+                $data["status"] = "error";
+                $data["message"] = "isNotLiked";
+                $data["code"] = 200;
+            }
+           
+            
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
+        
+    }
+    
+    public function getLikedSeries($_apikey, $_apisecret, $_userId){
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        if($query->num_rows()>0){
+            
+            $this->db->where('user_id',$_userId);
+            $query = $this->db->get("users_meta");
+            $query_object = $query->result()[0];
+            $favorited_series = $query_object->user_favoritedseries;
+            $series = explode(",",$favorited_series);
+            
+            $data["status"] = "success";
+            $data["code"] = 200;
+            
+            $this->db->select('series_id,series_name,series_rating,series_img,series_lastepisode,series_lasttime');
+            $this->db->where('series_active',1);
+            $this->db->where_in('series_id',$series);
+            $query = $this->db->get('series');
+            $data["result"] = $query->result();
+            
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
     }
 }
 

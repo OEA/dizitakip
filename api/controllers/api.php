@@ -37,4 +37,38 @@ class Api extends CI_Controller {
         $data = $this->api->getTop10($_apikey, $_apisecret);
         echo json_encode($data);   
     }
+    
+    public function recent(){
+        
+    }
+    
+    public function likeSeries(){
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        $_seriesId = $this->input->get('seriesId',TRUE);
+        $_userId = $this->input->get('userId',TRUE);
+        
+        $data = $this->api->likeSeries($_apikey, $_apisecret, $_seriesId, $_userId);
+        echo json_encode($data);   
+    }
+    
+    public function isLikedSeries(){
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        $_seriesId = $this->input->get('seriesId',TRUE);
+        $_userId = $this->input->get('userId',TRUE);
+        
+        $data = $this->api->isLikedSeries($_apikey, $_apisecret, $_seriesId, $_userId);
+        echo json_encode($data);   
+    }
+    
+    public function likedseries(){
+        
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        $_userId = $this->input->get('userId',TRUE);
+        
+        $data = $this->api->getLikedSeries($_apikey, $_apisecret, $_userId);
+        echo json_encode($data);   
+    }
 }
