@@ -15,12 +15,18 @@ class SeriesViewController : UITableViewController{
     @IBOutlet var tblView: UITableView!
     let seriesModel: SeriesModel = SeriesModel()
     var series: [[String:String]]!
+    
+    let userDefaults = NSUserDefaults.standardUserDefaults()
+    var profile: [String:String]!
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return series.count
     }
     override func viewDidLoad() {
         seriesModel.setTop10()
         series = seriesModel.top10
+        
+        profile = userDefaults.objectForKey("profile") as [String:String]
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -62,15 +68,34 @@ class SeriesViewController : UITableViewController{
     }
     
     override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject] {
-            var likeAction = UITableViewRowAction(style: .Normal, title: "Like") { (action, indexPath) -> Void in
+        
+        
+        var seriesID:String = series[indexPath.row]["series_id"]!
+        var SID:Int! = seriesID.toInt()
+        var userID: String = profile["user_id"]! 
+        var UID:Int! = userID.toInt()
+        var likeAction: UITableViewRowAction!
+        if self.seriesModel.isLikedSeries(SID, userId: UID){
+            likeAction = UITableViewRowAction(style: .Normal, title: "Unlike") { (action, indexPath) -> Void in
                 tableView.editing = false
-                println("likeAction")
+                self.seriesModel.likeSeries(SID, userId: UID)
             }
-        likeAction.backgroundColor = UIColorFromRGB(0x29ade0)
+            likeAction.backgroundColor = UIColorFromRGB(0xFF0000)
+        }else{
+            likeAction = UITableViewRowAction(style: .Normal, title: "Like") { (action, indexPath) -> Void in
+                tableView.editing = false
+                self.seriesModel.likeSeries(SID, userId: UID)
+            }
+            likeAction.backgroundColor = UIColorFromRGB(0x29ade0)
+        }
+            
         
             var followAction = UITableViewRowAction(style: .Default, title: "Follow") { (action, indexPath) -> Void in
                 tableView.editing = false
-                println("followAction")
+                
+                println(self.seriesModel.runUrl)
+                JLToast.makeText("You successfully followed "+self.series[indexPath.row]["series_name"]!, duration: JLToastDelay.LongDelay).show()   
+                
             }
         
             followAction.backgroundColor = UIColorFromRGB(0x158cba)
