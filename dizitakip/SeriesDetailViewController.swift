@@ -10,9 +10,32 @@ import Foundation
 import UIKit
 
 class SeriesDetailViewController:UIViewController{
+ 
+    
+    
+    @IBOutlet weak var seriesLabelTitle: UILabel!
+    @IBOutlet weak var lblGenres: UILabel!
     @IBOutlet weak var seriesImage: UIImageView!
-    @IBOutlet weak var seriesTitle: UILabel!
+    
+    var seriesTitle: String = ""
+    var genresTitle: String = ""
+    var imageUrl: String = ""
     override func viewDidLoad() {
+        super.viewDidLoad()
+        initSeriesDetail()
         
+    }
+    
+    func initSeriesDetail(){
+        seriesLabelTitle.text = seriesTitle
+        lblGenres.text = genresTitle
+    
+        var apiUrl = "http://localhost/imdb/" + imageUrl
+    
+        if let nsurl = NSURL(string: apiUrl) {
+            if let nsdata = NSData(contentsOfURL: nsurl) {
+                seriesImage.image = UIImage(data: nsdata)
+            }
+        }
     }
 }

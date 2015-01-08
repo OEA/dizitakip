@@ -131,13 +131,19 @@ class FavoritedViewController : UITableViewController{
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "seriesDetail"{
+        if segue.identifier == "seriesFromFavorites"{
             
-            let newVC = segue.destinationViewController as SeriesDetailViewController
+            var newVC:SeriesDetailViewController = segue.destinationViewController as SeriesDetailViewController
+            
             let cell = sender as UITableViewCell
-            let indexPath = tblView.indexPathForCell(cell)
+            let indexPath = tableView.indexPathForCell(cell)
+            let seriesTitle = series[indexPath!.item]["series_name"]!
+            let genresTitle = series[indexPath!.item]["series_genres"]!
+            let imageUrl = series[indexPath!.item]["series_img"]!
             
-            println()
+            newVC.seriesTitle = seriesTitle
+            newVC.genresTitle = genresTitle
+            newVC.imageUrl = imageUrl
             
             /* newVC.seriesTitle!.text = "deneme"
             
