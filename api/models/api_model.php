@@ -291,6 +291,14 @@ class Api_Model extends CI_Model{
             $this->db->where('series_active',1);
             $this->db->where_in('series_id',$series);
             $query = $this->db->get('series');
+            
+            
+                foreach($query->result() as $result){
+                    $episodes = explode(":",$result->series_lastepisode);
+                    $result->series_lastepisode = "S".$episodes[0]."E".$episodes[1];
+                    $result->series_genres = $this->getGenres($result->series_id);   
+                }
+            
             $data["result"] = $query->result();
             
         }else{
