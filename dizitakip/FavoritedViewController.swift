@@ -15,13 +15,18 @@ class FavoritedViewController : UITableViewController{
     @IBOutlet var tblView: UITableView!
     let seriesModel: SeriesModel = SeriesModel()
     var series: [[String:String]]!
+    var showingSeries: [[String:String]]!
     
     let userDefaults = NSUserDefaults.standardUserDefaults()
     var profile: [String:String]!
     
+    @IBOutlet var searchBarItem: UISearchBar!
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return series.count
+        return showingSeries.count
     }
+    
+    
     override func viewDidLoad() {
         profile = userDefaults.objectForKey("profile") as [String:String]
         var profileID: String = profile["user_id"]!
@@ -29,7 +34,24 @@ class FavoritedViewController : UITableViewController{
         
         seriesModel.setFavorites(PID)
         series = seriesModel.favorites
+        showingSeries = series
     }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if searchBarItem.text == "" {
+            showingSeries = series
+        } else {
+            showingSeries = series.filter({
+                $0["series_name"]!.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch) != nil
+            })
+        }
+        self.tblView.reloadData()
+    }
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        
+    }
+        
     override func viewDidAppear(animated: Bool) {
         
         profile = userDefaults.objectForKey("profile") as [String:String]
@@ -37,20 +59,22 @@ class FavoritedViewController : UITableViewController{
         var PID: Int = profileID.toInt()!
         seriesModel.setFavorites(PID)
         series = seriesModel.favorites
+        showingSeries = series
         tblView.reloadData()
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var cell = tableView.dequeueReusableCellWithIdentifier("SeriesTableCell") as SeriesTableCell
         
-        cell.seriesTitle.text = series[indexPath.row]["series_name"]
-        cell.seriesGenres.text = series[indexPath.row]["series_genres"]
-        cell.seriesImdb.text = "IMDB: "+series[indexPath.row]["series_rating"]!
-        cell.seriesDate.text = " "+series[indexPath.row]["series_lastepisode"]!+" "
+        cell.seriesTitle.text = showingSeries[indexPath.row]["series_name"]
+        cell.seriesGenres.text = showingSeries[indexPath.row]["series_genres"]
+        cell.seriesImdb.text = "IMDB: "+showingSeries[indexPath.row]["series_rating"]!
+        cell.seriesDate.text = " "+showingSeries[indexPath.row]["series_lastepisode"]!+" "
+        cell.seriesNextEpisode.text = showingSeries[indexPath.row]["series_editedtime"]!
         cell.seriesDate.layer.masksToBounds = true
         cell.seriesDate.layer.cornerRadius = 4.0
         
-        var apiUrl = "http://localhost/imdb/"+series[indexPath.row]["series_img"]!
+        var apiUrl = "http://localhost/imdb/"+showingSeries[indexPath.row]["series_img"]!
         
         
         if let nsurl = NSURL(string: apiUrl) {
@@ -81,7 +105,7 @@ class FavoritedViewController : UITableViewController{
     override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject] {
         
         
-        var seriesID:String = series[indexPath.row]["series_id"]!
+        var seriesID:String = showingSeries[indexPath.row]["series_id"]!
         var SID:Int! = seriesID.toInt()
         var userID: String = profile["user_id"]! 
         var UID:Int! = userID.toInt()
@@ -93,7 +117,7 @@ class FavoritedViewController : UITableViewController{
                 tableView.editing = false
                 self.seriesModel.likeSeries(SID, userId: UID)
                 tableView.beginUpdates()
-                self.series.removeAtIndex(indexPath.row)
+                self.showingSeries.removeAtIndex(indexPath.row)
                 tableView.deleteRowsAtIndexPaths([paths], withRowAnimation: .Fade)
                 tableView.endUpdates()
             }
@@ -106,7 +130,7 @@ class FavoritedViewController : UITableViewController{
             likeAction.backgroundColor = UIColorFromRGB(0x29ade0)
         }
         
-        
+        /*
         var followAction = UITableViewRowAction(style: .Default, title: "Follow") { (action, indexPath) -> Void in
             tableView.editing = false
             
@@ -119,6 +143,10 @@ class FavoritedViewController : UITableViewController{
         
         
         return [likeAction, followAction]
+
+*/
+        
+        return [likeAction]
     }
     
     func UIColorFromRGB(rgbValue: UInt) -> UIColor {
@@ -137,27 +165,14 @@ class FavoritedViewController : UITableViewController{
             
             let cell = sender as UITableViewCell
             let indexPath = tableView.indexPathForCell(cell)
-            let seriesTitle = series[indexPath!.item]["series_name"]!
-            let genresTitle = series[indexPath!.item]["series_genres"]!
-            let imageUrl = series[indexPath!.item]["series_img"]!
+            let seriesTitle = showingSeries[indexPath!.item]["series_name"]!
+            let genresTitle = showingSeries[indexPath!.item]["series_genres"]!
+            let imageUrl = showingSeries[indexPath!.item]["series_img"]!
             
             newVC.seriesTitle = seriesTitle
             newVC.genresTitle = genresTitle
             newVC.imageUrl = imageUrl
             
-            /* newVC.seriesTitle!.text = "deneme"
-            
-            var apiUrl = "http://localhost/imdb/"+series[1]["series_img"]!
-            
-            
-            if let nsurl = NSURL(string: apiUrl) {
-            
-            if let nsdata = NSData(contentsOfURL: nsurl) {
-            
-            //newVC.seriesImage.image = UIImage(data: nsdata)?
-            }
-            
-            }*/
             
             
         }
