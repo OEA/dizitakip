@@ -45,6 +45,30 @@ class SeriesModel{
         }
     }
     
+    func setRecent(){
+        var apiUrl = baseApiUrl + "getrecent?apiKey=" + apiKey + "&apiSecret=" + apiSecret
+        runUrl = apiUrl
+        if let nsurl = NSURL(string: apiUrl) {
+            
+            if let nsdata = NSData(contentsOfURL: nsurl) {
+                
+                var jsonDict: [String:AnyObject]!
+                jsonDict = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions.AllowFragments, error: nil) as [String:AnyObject]
+                
+                var status = jsonDict["status"] as String
+                
+                
+                if (status=="success" as String){
+                    recent = jsonDict["result"] as [[String:String]]
+                }else{
+                    errorMessage = jsonDict["error_message"] as String
+                }
+                
+                
+            }
+        }
+    }
+    
     func setSearch(searchText: String, type: Int){
         var apiUrl: String!
         if type==0{

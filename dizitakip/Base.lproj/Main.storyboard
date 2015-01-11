@@ -886,7 +886,7 @@
             </objects>
             <point key="canvasLocation" x="770" y="1020"/>
         </scene>
-        <!--Favorited Series-->
+        <!--Recent Series-->
         <scene sceneID="PyC-Rr-8wf">
             <objects>
                 <tableViewController id="8Gb-6V-4g2" customClass="RecentSeriesViewController" customModule="dizitakip" customModuleProvider="target" sceneMemberID="viewController">
@@ -999,6 +999,7 @@
                                     <outlet property="seriesNextEpisode" destination="qZo-9v-VzD" id="ZdI-39-3Ia"/>
                                     <outlet property="seriesTitle" destination="3FT-0B-YzX" id="t5U-wN-YBb"/>
                                     <outlet property="showMore" destination="JSa-I2-1ZB" id="gyC-20-fKN"/>
+                                    <segue destination="Nfq-YE-AU4" kind="show" identifier="detailsFromRecent" id="34V-8B-NvO"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -1007,7 +1008,13 @@
                             <outlet property="delegate" destination="8Gb-6V-4g2" id="PMN-ST-TaG"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Favorited Series" id="3rO-4d-qQC"/>
+                    <navigationItem key="navigationItem" title="Recent Series" id="zk8-Mn-Zfc"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="f0J-UF-XVw">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh" destination="8Gb-6V-4g2" eventType="valueChanged" id="cPR-aK-hP1"/>
+                        </connections>
+                    </refreshControl>
                     <connections>
                         <outlet property="searchBarItem" destination="Ijj-vb-rgT" id="DHN-M5-TJE"/>
                         <outlet property="tblView" destination="qPb-ID-Qg3" id="Rxz-0Q-392"/>
@@ -1026,6 +1033,6 @@
         <image name="Top_Charts" width="27" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="su8-Bx-bPa"/>
+        <segue reference="34V-8B-NvO"/>
     </inferredMetricsTieBreakers>
 </document>
