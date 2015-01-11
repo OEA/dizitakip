@@ -35,6 +35,7 @@ class SeriesViewController : UITableViewController{
         cell.seriesTitle.text = series[indexPath.row]["series_name"]
         cell.seriesGenres.text = series[indexPath.row]["series_genres"]
         cell.seriesImdb.text = "IMDB: "+series[indexPath.row]["series_rating"]!
+        cell.seriesNextEpisode.text = series[indexPath.row]["series_editedtime"]!
         cell.seriesDate.text = " "+series[indexPath.row]["series_lastepisode"]!+" "
         cell.seriesDate.layer.masksToBounds = true
         cell.seriesDate.layer.cornerRadius = 4.0
@@ -75,10 +76,16 @@ class SeriesViewController : UITableViewController{
         var userID: String = profile["user_id"]! 
         var UID:Int! = userID.toInt()
         var likeAction: UITableViewRowAction!
+        var paths = indexPath
+        //Unlike process
         if self.seriesModel.isLikedSeries(SID, userId: UID){
             likeAction = UITableViewRowAction(style: .Normal, title: "Unlike") { (action, indexPath) -> Void in
                 tableView.editing = false
                 self.seriesModel.likeSeries(SID, userId: UID)
+                tableView.beginUpdates()
+                self.series.removeAtIndex(indexPath.row)
+                tableView.deleteRowsAtIndexPaths([paths], withRowAnimation: .Fade)
+                tableView.endUpdates()
             }
             likeAction.backgroundColor = UIColorFromRGB(0xFF0000)
         }else{
@@ -88,21 +95,24 @@ class SeriesViewController : UITableViewController{
             }
             likeAction.backgroundColor = UIColorFromRGB(0x29ade0)
         }
-            
         
-            var followAction = UITableViewRowAction(style: .Default, title: "Follow") { (action, indexPath) -> Void in
-                tableView.editing = false
-                
-                println(self.seriesModel.runUrl)
-                JLToast.makeText("You successfully followed "+self.series[indexPath.row]["series_name"]!, duration: JLToastDelay.LongDelay).show()   
-                
-            }
+        /*
+        var followAction = UITableViewRowAction(style: .Default, title: "Follow") { (action, indexPath) -> Void in
+        tableView.editing = false
         
-            followAction.backgroundColor = UIColorFromRGB(0x158cba)
+        println(self.seriesModel.runUrl)
+        JLToast.makeText("You successfully followed "+self.series[indexPath.row]["series_name"]!, duration: JLToastDelay.LongDelay).show()   
         
-           
-            return [likeAction, followAction]
         }
+        
+        followAction.backgroundColor = UIColorFromRGB(0x158cba)
+        
+        
+        return [likeAction, followAction]
+        
+        */
+        return [likeAction]
+    }
         
     func UIColorFromRGB(rgbValue: UInt) -> UIColor {
         return UIColor(
@@ -114,29 +124,19 @@ class SeriesViewController : UITableViewController{
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "seriesDetail"{
+        if segue.identifier == "seriesFromTop10"{
             
-            let newVC = segue.destinationViewController as SeriesDetailViewController
+            var newVC:SeriesDetailViewController = segue.destinationViewController as SeriesDetailViewController
+            
             let cell = sender as UITableViewCell
-            let indexPath = tblView.indexPathForCell(cell)
+            let indexPath = tableView.indexPathForCell(cell)
+            let seriesTitle = series[indexPath!.item]["series_name"]!
+            let genresTitle = series[indexPath!.item]["series_genres"]!
+            let imageUrl = series[indexPath!.item]["series_img"]!
             
-            println()
-        
-           /* newVC.seriesTitle!.text = "deneme"
-                          
-            var apiUrl = "http://localhost/imdb/"+series[1]["series_img"]!
-            
-            
-            if let nsurl = NSURL(string: apiUrl) {
-                
-                if let nsdata = NSData(contentsOfURL: nsurl) {
-                    
-                    //newVC.seriesImage.image = UIImage(data: nsdata)?
-                }
-                
-            }*/
-            
-                
+            newVC.seriesTitle = seriesTitle
+            newVC.genresTitle = genresTitle
+            newVC.imageUrl = imageUrl
         }
     }
 
