@@ -12,7 +12,6 @@ import UIKit
 class SeriesDetailViewController:UIViewController{
  
     
-    
     @IBOutlet weak var seriesLabelTitle: UILabel!
     @IBOutlet weak var lblGenres: UILabel!
     @IBOutlet weak var seriesImage: UIImageView!
@@ -20,9 +19,15 @@ class SeriesDetailViewController:UIViewController{
     var seriesTitle: String = ""
     var genresTitle: String = ""
     var imageUrl: String = ""
+    
+    var count: Int = 1
     override func viewDidLoad() {
         super.viewDidLoad()
         initSeriesDetail()
+        
+        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        
+        
         
     }
     
@@ -37,5 +42,9 @@ class SeriesDetailViewController:UIViewController{
                 seriesImage.image = UIImage(data: nsdata)
             }
         }
+        
+        title = seriesTitle
     }
+   
+    
 }
