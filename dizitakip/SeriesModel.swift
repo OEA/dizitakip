@@ -17,6 +17,7 @@ class SeriesModel{
     var top10: [[String:String]]! = nil
     var recent: [[String:String]]! = nil
     var favorites: [[String:String]]! = nil
+    var search: [[String:String]]! = nil
     var errorMessage: String! = nil
     var likedOrNot: String! = nil
     
@@ -42,6 +43,37 @@ class SeriesModel{
                 
             }
         }
+    }
+    
+    func setSearch(searchText: String, type: Int){
+        var apiUrl: String!
+        if type==0{
+            apiUrl = baseApiUrl + "search?apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&search=" + searchText
+        }else{
+            
+            apiUrl = baseApiUrl + "searchgenres?apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&search=" + searchText
+        }
+        runUrl = apiUrl
+        if let nsurl = NSURL(string: apiUrl) {
+            
+            if let nsdata = NSData(contentsOfURL: nsurl) {
+                
+                var jsonDict: [String:AnyObject]!
+                jsonDict = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions.AllowFragments, error: nil) as [String:AnyObject]
+                
+                var status = jsonDict["status"] as String
+                
+                
+                if (status=="success" as String){
+                    search = jsonDict["result"] as [[String:String]]
+                }else{
+                    errorMessage = jsonDict["error_message"] as String
+                }
+                
+                
+            }
+        }
+
     }
     func setFavorites(userId: Int){
         
