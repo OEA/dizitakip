@@ -112,10 +112,15 @@ class Api_Model extends CI_Model{
                 $this->db->order_by('series_rating', 'desc'); 
                 $query = $this->db->get('series',10,0);
                     
+                $i = 0;
                 foreach($query->result() as $result){
                     $episodes = explode(":",$result->series_lastepisode);
                     $result->series_lastepisode = "S".$episodes[0]."E".$episodes[1];
                     $result->series_genres = $this->getGenres($result->series_id);   
+                    
+                    $query->result()[$i]->series_editedtime = $this->getTimeClearly($query->result()[$i]->series_lasttime);
+                    
+                    $i++; 
                 }
 
                         $data["status"] = "success";
@@ -205,7 +210,7 @@ class Api_Model extends CI_Model{
                         }
                     }
                     
-
+                    $newfavorites = str_replace(' ','',$newfavorites);
                     $datas = array(
                             'user_favoritedseries' => $newfavorites,
                     );
@@ -290,13 +295,19 @@ class Api_Model extends CI_Model{
             $this->db->select('series_id,series_name,series_rating,series_img,series_lastepisode,series_lasttime');
             $this->db->where('series_active',1);
             $this->db->where_in('series_id',$series);
+            $this->db->order_by('series_lasttime','asc');
             $query = $this->db->get('series');
             
-            
+               
+                $i = 0;
                 foreach($query->result() as $result){
                     $episodes = explode(":",$result->series_lastepisode);
                     $result->series_lastepisode = "S".$episodes[0]."E".$episodes[1];
                     $result->series_genres = $this->getGenres($result->series_id);   
+                    
+                    $query->result()[$i]->series_editedtime = $this->getTimeClearly($query->result()[$i]->series_lasttime);
+                    
+                    $i++; 
                 }
             
             $data["result"] = $query->result();
@@ -307,6 +318,218 @@ class Api_Model extends CI_Model{
             $data["code"] = 400;
         }
         return $data;
+    }
+    
+    public function getFoundSeries($_apikey, $_apisecret, $_search){
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        $_search = str_replace('+',' ',$_search);
+        
+        if($query->num_rows()>0){
+                
+                $this->db->select('series_id,series_name,series_rating,series_img,series_lastepisode,series_lasttime');
+                $this->db->where('series_active',1);
+                $this->db->like('series_name',$_search);
+                $this->db->order_by('series_rating', 'desc'); 
+                $query = $this->db->get('series');
+                $i = 0;
+                foreach($query->result() as $result){
+                    $episodes = explode(":",$result->series_lastepisode);
+                    $result->series_lastepisode = "S".$episodes[0]."E".$episodes[1];
+                    $result->series_genres = $this->getGenres($result->series_id);   
+                    
+                    
+                    $i++; 
+                }
+
+                        $data["status"] = "success";
+                        $data["code"] = 200;
+                        $data["result"] = $query->result();
+                   
+                
+               
+            
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
+    }
+    
+    public function getSeriesIdsFromGenre($name){
+        $this->db->select('genre_id,genre_name');
+        $this->db->like('genre_name',$name);
+        $query = $this->db->get('genres');
+        $seriesIds = array();
+        foreach($query->result() as $result){
+            $query_series = $this->db->query("SELECT * FROM series_meta WHERE series_genres REGEXP '[[:<:]]".$result->genre_id."[[:>:]]'");
+            foreach($query_series->result() as $resultSeries){
+                $seriesIds[] = $resultSeries->series_id;
+            }
+        }
+        $seriesIds = array_unique($seriesIds);
+        $newIdList = array();
+        $newIds = "";
+        foreach($seriesIds as $id){
+            $newIdList[] = $id;
+        }
+        for($i=0;$i<count($newIdList);$i++){
+            if($i==count($newIdList)-1){
+                $newIds .= $newIdList[$i];
+            }else{
+                $newIds .= $newIdList[$i].", ";
+            }
+        }
+        return $newIds;
+    }
+    public function getFoundSeriesFromGenres($_apikey, $_apisecret, $_search){
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        $_search = str_replace('+',' ',$_search);
+        
+        if($query->num_rows()>0){
+                
+                $ids = explode(",",$this->getSeriesIdsFromGenre($_search));
+                
+                $this->db->select('series_id,series_name,series_rating,series_img,series_lastepisode,series_lasttime');
+                $this->db->where('series_active',1);
+                
+                $this->db->where_in('series_id',$ids);
+                $this->db->order_by('series_rating', 'desc'); 
+                $query = $this->db->get('series');
+            
+                $i = 0;
+                foreach($query->result() as $result){
+                    $episodes = explode(":",$result->series_lastepisode);
+                    $result->series_lastepisode = "S".$episodes[0]."E".$episodes[1];
+                    $result->series_genres = $this->getGenres($result->series_id);   
+                    
+                    
+                    $i++; 
+                }
+
+                        $data["status"] = "success";
+                        $data["code"] = 200;
+                        $data["result"] = $query->result();
+                   
+                
+               
+            
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
+    }
+    public function getTimeClearly($time){
+		$date = strtotime(date("d M. Y"));
+		
+		if($date==$time){
+			return "Today";
+		}else if($time==strtotime("-1 day",$date)){
+			return "Yesterday";
+		}else if($time==strtotime("+1 day",$date)){
+			return "Tomorrow";
+		}else if($time==strtotime("+2 day",$date)){
+			return "2 days later";
+		}else if($time==strtotime("+3 day",$date)){
+			return "3 days later";
+		}else if($time==strtotime("+4 day",$date)){
+			return "4 days later";
+		}else if($time==strtotime("+5 day",$date)){
+			return "5 days later";
+		}else if($time==strtotime("+6 day",$date)){
+			return "6 days later";
+		}else if($time==strtotime("+1 week",$date)){
+			return "1 week later";
+		}else if($time==strtotime("+2 week",$date)){
+			return "2 weeks later";
+		}else{
+			return date("d M. Y",$time);
+		}
+		
+	}
+    
+    public function getStatistics($_apikey, $_apisecret, $_userid){
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        
+        if($query->num_rows()>0){
+            $data["status"] = "success";
+            $data["code"] = 200;
+            $data["result"][0] = $this->getStatisticsFromDB($_userid);
+ 
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
+    }
+    
+    public function getStatisticsFromDB($id){
+		$std = new stdClass;
+
+		$std->total_genres = $this->getCountCats();
+		
+		$std->total_series = $this->getCountSeries();
+		
+		$std->total_casts = $this->getCountCasts();
+        
+		$std->total_episodes = $this->getCountEpisodes();
+
+        $stats = $this->getStatsUser($id);
+        $std->liked_series = $stats->liked_series;
+        
+        $std->watched_episodes = $stats->watched_episodes;
+        
+        $std->liked_episodes = $stats->liked_episodes;
+		return $std;
+	}
+    
+    public function getCountCats(){
+		$query = $this->db->get("genres");
+		return "".$query->num_rows."";
+	}
+	public function getCountSeries(){
+		$this->db->where('series_active','1');
+		$query = $this->db->get("series");
+		return "".$query->num_rows."";
+	}
+	public function getCountCasts(){
+		$query = $this->db->get("casts");
+		return "".$query->num_rows."";
+	}
+    
+    public function getCountEpisodes(){
+		$query = $this->db->get("episodes");
+		return "".$query->num_rows."";
+    }
+    
+    public function getStatsUser($id){
+        
+        $this->db->where('user_id',$id);
+        $query = $this->db->get("users_meta");
+        $query_object = $query->result();
+        $result = $query_object[0];
+        $std = new stdClass;
+        
+        $w_episodes = explode(",",$result->user_watchedepisodes);
+        $l_episodes = explode(",",$result->user_favoritedepisodes);
+        $l_series = explode(",",$result->user_favoritedseries);
+        
+        $std->liked_series = "".count($l_series)."";
+        $std->watched_episodes = "".count($w_episodes)."";
+        $std->liked_episodes = "".count($l_episodes)."";
+        return $std;
     }
 }
 

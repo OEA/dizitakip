@@ -71,4 +71,39 @@ class Api extends CI_Controller {
         $data = $this->api->getLikedSeries($_apikey, $_apisecret, $_userId);
         echo json_encode($data);   
     }
+    
+    public function search(){
+        
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        $_search = $this->input->get('search',TRUE);
+        
+        $data = $this->api->getFoundSeries($_apikey, $_apisecret, $_search);
+        
+        echo json_encode($data);   
+        
+       
+    }
+    
+    public function searchgenres(){
+             
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        $_search = $this->input->get('search',TRUE);
+        
+        $data = $this->api->getFoundSeriesFromGenres($_apikey, $_apisecret, $_search);
+        echo json_encode($data);   
+        
+       
+    }
+    
+    public function getstatistics(){
+        
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        $_userId = $this->input->get('userId',TRUE);
+    
+        $data = $this->api->getStatistics($_apikey, $_apisecret, $_userId);
+        echo json_encode($data);   
+    }
 }
