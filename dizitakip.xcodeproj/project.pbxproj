@@ -14,6 +14,9 @@
 		9520DA151A5D52B900F74B51 /* JLToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9520DA141A5D52B900F74B51 /* JLToastView.swift */; };
 		9520DA171A5D52E500F74B51 /* JLToastCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9520DA161A5D52E500F74B51 /* JLToastCenter.swift */; };
 		9520DA191A5DCC8A00F74B51 /* FavoritedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9520DA181A5DCC8A00F74B51 /* FavoritedViewController.swift */; };
+		95343BA61A6141F200E49E45 /* SearchTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95343BA51A6141F200E49E45 /* SearchTableCell.swift */; };
+		95343BA81A61426400E49E45 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95343BA71A61426400E49E45 /* FindViewController.swift */; };
+		95575DD21A62FF340047B595 /* RecentSeriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95575DD11A62FF340047B595 /* RecentSeriesViewController.swift */; };
 		95CB57531A59478200FC9A7E /* SystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB57521A59478200FC9A7E /* SystemModel.swift */; };
 		95CB57551A59479800FC9A7E /* SeriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB57541A59479800FC9A7E /* SeriesModel.swift */; };
 		95CB57571A59487200FC9A7E /* ControllerInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB57561A59487200FC9A7E /* ControllerInit.swift */; };
@@ -47,6 +50,9 @@
 		9520DA141A5D52B900F74B51 /* JLToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JLToastView.swift; sourceTree = "<group>"; };
 		9520DA161A5D52E500F74B51 /* JLToastCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JLToastCenter.swift; sourceTree = "<group>"; };
 		9520DA181A5DCC8A00F74B51 /* FavoritedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritedViewController.swift; sourceTree = "<group>"; };
+		95343BA51A6141F200E49E45 /* SearchTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableCell.swift; sourceTree = "<group>"; };
+		95343BA71A61426400E49E45 /* FindViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindViewController.swift; sourceTree = "<group>"; };
+		95575DD11A62FF340047B595 /* RecentSeriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentSeriesViewController.swift; sourceTree = "<group>"; };
 		95CB57521A59478200FC9A7E /* SystemModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemModel.swift; sourceTree = "<group>"; };
 		95CB57541A59479800FC9A7E /* SeriesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeriesModel.swift; sourceTree = "<group>"; };
 		95CB57561A59487200FC9A7E /* ControllerInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerInit.swift; sourceTree = "<group>"; };
@@ -125,6 +131,9 @@
 				9520DA141A5D52B900F74B51 /* JLToastView.swift */,
 				9520DA161A5D52E500F74B51 /* JLToastCenter.swift */,
 				9520DA181A5DCC8A00F74B51 /* FavoritedViewController.swift */,
+				95343BA51A6141F200E49E45 /* SearchTableCell.swift */,
+				95343BA71A61426400E49E45 /* FindViewController.swift */,
+				95575DD11A62FF340047B595 /* RecentSeriesViewController.swift */,
 			);
 			path = dizitakip;
 			sourceTree = "<group>";
@@ -256,10 +265,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				95CB57571A59487200FC9A7E /* ControllerInit.swift in Sources */,
+				95575DD21A62FF340047B595 /* RecentSeriesViewController.swift in Sources */,
 				95CB57631A59B5AD00FC9A7E /* SeriesTableCell.swift in Sources */,
 				951FD43A1A5BBEE900932B10 /* NavigationLogin.swift in Sources */,
 				95CB57551A59479800FC9A7E /* SeriesModel.swift in Sources */,
 				95CB57651A59B8E100FC9A7E /* SeriesViewController.swift in Sources */,
+				95343BA81A61426400E49E45 /* FindViewController.swift in Sources */,
 				95ED48F11A1695DF004F9D62 /* ViewController.swift in Sources */,
 				95CB575B1A59638E00FC9A7E /* RegisterController.swift in Sources */,
 				95CB57531A59478200FC9A7E /* SystemModel.swift in Sources */,
@@ -271,6 +282,7 @@
 				9520DA131A5D527600F74B51 /* JLToast.swift in Sources */,
 				95CB57591A595D9900FC9A7E /* HomeController.swift in Sources */,
 				95CB575D1A59703400FC9A7E /* ProfileController.swift in Sources */,
+				95343BA61A6141F200E49E45 /* SearchTableCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
