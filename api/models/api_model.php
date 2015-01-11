@@ -137,7 +137,43 @@ class Api_Model extends CI_Model{
         }
         return $data;
     }
-    
+    public function getRecent($_apikey, $_apisecret){
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        if($query->num_rows()>0){
+                
+                $this->db->select('series_id,series_name,series_rating,series_img,series_lastepisode,series_lasttime');
+                $this->db->where('series_active',1);
+                $this->db->order_by('series_lasttime', 'asc'); 
+                $query = $this->db->get('series',20,0);
+                    
+                $i = 0;
+                foreach($query->result() as $result){
+                    $episodes = explode(":",$result->series_lastepisode);
+                    $result->series_lastepisode = "S".$episodes[0]."E".$episodes[1];
+                    $result->series_genres = $this->getGenres($result->series_id);   
+                    
+                    $query->result()[$i]->series_editedtime = $this->getTimeClearly($query->result()[$i]->series_lasttime);
+                    
+                    $i++; 
+                }
+
+                        $data["status"] = "success";
+                        $data["code"] = 200;
+                        $data["result"] = $query->result();
+                   
+                
+               
+            
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
+    }
     public function getGenres($series_id){
         $this->db->where('series_id',$series_id);
 		$query = $this->db->get("series_meta");

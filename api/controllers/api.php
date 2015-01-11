@@ -38,8 +38,12 @@ class Api extends CI_Controller {
         echo json_encode($data);   
     }
     
-    public function recent(){
+    public function getrecent(){
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
         
+        $data = $this->api->getRecent($_apikey, $_apisecret);
+        echo json_encode($data);   
     }
     
     public function likeSeries(){
