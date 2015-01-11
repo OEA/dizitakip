@@ -21,6 +21,10 @@ class SeriesModel{
     var errorMessage: String! = nil
     var likedOrNot: String! = nil
     
+    var seasons: [[String:String]]! = nil
+    var episodes: [[String:String]]! = nil
+    var casts: [[String:String]]! = nil
+    
     func setTop10(){
         var apiUrl = baseApiUrl + "getTop10?apiKey=" + apiKey + "&apiSecret=" + apiSecret
         runUrl = apiUrl
@@ -60,6 +64,78 @@ class SeriesModel{
                 
                 if (status=="success" as String){
                     recent = jsonDict["result"] as [[String:String]]
+                }else{
+                    errorMessage = jsonDict["error_message"] as String
+                }
+                
+                
+            }
+        }
+    }
+    
+    func setSeasons(seriesId: String){
+        var apiUrl = baseApiUrl + "getseasons?apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&seriesId="+seriesId
+        runUrl = apiUrl
+        if let nsurl = NSURL(string: apiUrl) {
+            
+            if let nsdata = NSData(contentsOfURL: nsurl) {
+                
+                var jsonDict: [String:AnyObject]!
+                jsonDict = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions.AllowFragments, error: nil) as [String:AnyObject]
+                
+                var status = jsonDict["status"] as String
+                
+                
+                if (status=="success" as String){
+                    seasons = jsonDict["result"] as [[String:String]]
+                }else{
+                    errorMessage = jsonDict["error_message"] as String
+                }
+                
+                
+            }
+        }
+    }
+    
+    func setEpisodes(seriesId: String, seasonId: String){
+        var apiUrl = baseApiUrl + "getepisodes?apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&seriesId="+String(seriesId) + "&seasonId="+seasonId
+        runUrl = apiUrl
+        if let nsurl = NSURL(string: apiUrl) {
+            
+            if let nsdata = NSData(contentsOfURL: nsurl) {
+                
+                var jsonDict: [String:AnyObject]!
+                jsonDict = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions.AllowFragments, error: nil) as [String:AnyObject]
+                
+                var status = jsonDict["status"] as String
+                
+                
+                if (status=="success" as String){
+                    recent = jsonDict["result"] as [[String:String]]
+                }else{
+                    errorMessage = jsonDict["error_message"] as String
+                }
+                
+                
+            }
+        }
+    }
+    
+    func setCasts(seriesId: String){
+        var apiUrl = baseApiUrl + "getcasts?apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&seriesId="+seriesId
+        runUrl = apiUrl
+        if let nsurl = NSURL(string: apiUrl) {
+            
+            if let nsdata = NSData(contentsOfURL: nsurl) {
+                
+                var jsonDict: [String:AnyObject]!
+                jsonDict = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions.AllowFragments, error: nil) as [String:AnyObject]
+                
+                var status = jsonDict["status"] as String
+                
+                
+                if (status=="success" as String){
+                    casts = jsonDict["result"] as [[String:String]]
                 }else{
                     errorMessage = jsonDict["error_message"] as String
                 }

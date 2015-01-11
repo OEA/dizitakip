@@ -29,6 +29,8 @@ class RecentSeriesViewController : UITableViewController{
     
     override func viewDidLoad() {
         
+        profile = userDefaults.objectForKey("profile") as [String:String]
+        var profileID: String = profile["user_id"]!
         seriesModel.setRecent()
         series = seriesModel.recent
         showingSeries = series
@@ -128,10 +130,6 @@ class RecentSeriesViewController : UITableViewController{
             likeAction = UITableViewRowAction(style: .Normal, title: "Unlike") { (action, indexPath) -> Void in
                 tableView.editing = false
                 self.seriesModel.likeSeries(SID, userId: UID)
-                tableView.beginUpdates()
-                self.showingSeries.removeAtIndex(indexPath.row)
-                tableView.deleteRowsAtIndexPaths([paths], withRowAnimation: .Fade)
-                tableView.endUpdates()
             }
             likeAction.backgroundColor = UIColorFromRGB(0xFF0000)
         }else{
@@ -184,6 +182,7 @@ class RecentSeriesViewController : UITableViewController{
             newVC.seriesTitle = seriesTitle
             newVC.genresTitle = genresTitle
             newVC.imageUrl = imageUrl
+            
             
             
             

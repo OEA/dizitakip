@@ -116,7 +116,7 @@ class FindViewController : UITableViewController,UISearchBarDelegate{
             newVC.seriesTitle = seriesTitle
             newVC.genresTitle = genresTitle
             newVC.imageUrl = imageUrl
-            
+            newVC.seriesId = series[indexPath!.item]["series_id"]
             
             
         }

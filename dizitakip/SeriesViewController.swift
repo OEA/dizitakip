@@ -39,7 +39,7 @@ class SeriesViewController : UITableViewController{
         cell.seriesDate.text = " "+series[indexPath.row]["series_lastepisode"]!+" "
         cell.seriesDate.layer.masksToBounds = true
         cell.seriesDate.layer.cornerRadius = 4.0
-        
+        cell.seriesOrder.text = String(indexPath.row+1)+"."
         var apiUrl = "http://localhost/imdb/"+series[indexPath.row]["series_img"]!
         
         
@@ -137,6 +137,7 @@ class SeriesViewController : UITableViewController{
             newVC.seriesTitle = seriesTitle
             newVC.genresTitle = genresTitle
             newVC.imageUrl = imageUrl
+            newVC.seriesId = series[indexPath!.item]["series_id"]
         }
     }
 

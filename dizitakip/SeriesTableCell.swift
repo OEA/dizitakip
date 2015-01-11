@@ -18,5 +18,6 @@ class SeriesTableCell: UITableViewCell {
     @IBOutlet weak var seriesImdb: UILabel!
     @IBOutlet weak var seriesNextEpisode: UILabel!
     @IBOutlet weak var seriesDate: UILabel!
+    @IBOutlet var seriesOrder: UILabel!
     
 }

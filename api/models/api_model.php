@@ -567,6 +567,82 @@ class Api_Model extends CI_Model{
         $std->liked_episodes = "".count($l_episodes)."";
         return $std;
     }
+    
+    public function getSeasonsFromDB($_seriesId){
+        $this->db->select_max('episode_season');
+        $this->db->where('episode_seriesid', $_seriesId);
+        $query = $this->db->get('episodes');
+        $maxseason = $query->result()[0]->episode_season;
+        $std = array();
+        for($i=1;$i<=$maxseason;$i++){
+            $std[$i-1] = new stdClass;
+            $std[$i-1]->episode_count = "".$this->getEpisodeCount($_seriesId,$i)."";   
+        }
+        
+        return $std;
+    }
+    
+    public function getEpisodeCount($_seriesId,$_season){
+        
+        $this->db->where('episode_season', $_season);
+        $this->db->where('episode_seriesid',$_seriesId);
+        
+        $query = $this->db->get('episodes');
+        
+        return $query->num_rows();
+        
+    }
+    public function getSeasons($_apikey, $_apisecret, $_seriesId){
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        
+        if($query->num_rows()>0){
+            $data["status"] = "success";
+            $data["code"] = 200;
+            $data["result"] = $this->getSeasonsFromDB($_seriesId);
+ 
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
+    }
+    
+    public function getCastsFromDB($_seriesId){
+        $this->db->where('series_id',$_seriesId);
+        $query = $this->db->get('series_meta');
+        $result = $query->result()[0];
+        
+        $ids = $result->series_casts;
+        $ids_ = explode(",",$ids);
+        
+        $this->db->where_in('cast_id',$ids_);
+        $query = $this->db->get('casts');
+        return $query->result();
+        
+        
+    }
+    public function getCasts($_apikey, $_apisecret, $_seriesId){
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        
+        if($query->num_rows()>0){
+            $data["status"] = "success";
+            $data["code"] = 200;
+            $data["result"] = $this->getCastsFromDB($_seriesId);
+ 
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
+    }
 }
 
 

@@ -110,4 +110,24 @@ class Api extends CI_Controller {
         $data = $this->api->getStatistics($_apikey, $_apisecret, $_userId);
         echo json_encode($data);   
     }
+    
+    public function getseasons(){
+        
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        $_seriesId = $this->input->get('seriesId',TRUE);
+    
+        $data = $this->api->getSeasons($_apikey, $_apisecret, $_seriesId);
+        echo json_encode($data);  
+    }
+    
+    public function getcasts(){
+        
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        $_seriesId = $this->input->get('seriesId',TRUE);
+    
+        $data = $this->api->getCasts($_apikey, $_apisecret, $_seriesId);
+        echo json_encode($data);  
+    }
 }

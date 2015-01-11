@@ -172,6 +172,7 @@ class FavoritedViewController : UITableViewController{
             newVC.seriesTitle = seriesTitle
             newVC.genresTitle = genresTitle
             newVC.imageUrl = imageUrl
+            newVC.seriesId = showingSeries[indexPath!.item]["series_id"]
             
             
             
