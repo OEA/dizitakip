@@ -210,7 +210,6 @@ class SeriesModel{
         if let nsurl = NSURL(string: apiUrl) {
             if let nsdata = NSData(contentsOfURL: nsurl) {
                 
-                println(apiUrl)
                 var jsonDict: [String:AnyObject]!
                 jsonDict = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions.AllowFragments, error: nil) as [String:AnyObject]
                 
@@ -310,7 +309,6 @@ class SeriesModel{
         if let nsurl = NSURL(string: apiUrl) {
             if let nsdata = NSData(contentsOfURL: nsurl) {
                 
-                println(apiUrl)
                 var jsonDict: [String:AnyObject]!
                 jsonDict = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions.AllowFragments, error: nil) as [String:AnyObject]
                 

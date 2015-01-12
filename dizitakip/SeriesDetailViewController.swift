@@ -27,16 +27,29 @@ class SeriesDetailViewController:UIViewController{
     var seasons: [[String:String]]!
     var casts: [[String:String]]!
     
+    let userDefaults = NSUserDefaults.standardUserDefaults()
+    var profile: [String:String]!
+    
+    @IBOutlet var likeButton: UIButton!
     var count: Int = 1
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        profile = userDefaults.objectForKey("profile") as [String:String]
         seriesModel.setSeasons(seriesId)
         seriesModel.setCasts(seriesId)
         seasons = seriesModel.seasons
         casts = seriesModel.casts
         
         initSeriesDetail()
+        
+        var userId: String! = profile["user_id"]
+        var UID: Int = userId.toInt()!
+        var SID: Int = seriesId.toInt()!
+        if seriesModel.isLikedSeries(SID, userId:UID ){
+            likeButton.setTitle("Unlike", forState: nil)
+            likeButton.backgroundColor = UIColorFromRGB(0xFF0000)
+        }
         
     }
     
@@ -65,6 +78,23 @@ class SeriesDetailViewController:UIViewController{
         lblCast.text = "\(casts.count) Casts"
     }
     
+    @IBAction func likeButtonTapped(sender: AnyObject) {
+        
+        var userId: String! = profile["user_id"]
+        var UID: Int = userId.toInt()!
+        var SID: Int = seriesId.toInt()!
+        seriesModel.likeSeries(SID, userId: UID)
+        
+        if seriesModel.isLikedSeries(SID, userId:UID ){
+            likeButton.setTitle("Unlike", forState: nil)
+            likeButton.backgroundColor = UIColorFromRGB(0xFF0000)
+        }else{
+            
+            likeButton.setTitle("Like", forState: nil)
+            likeButton.backgroundColor = UIColorFromRGB(0x29ADE0)
+        
+        }
+    }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showSeasons"{
             var newVC:SeasonViewController = segue.destinationViewController as SeasonViewController
@@ -77,6 +107,15 @@ class SeriesDetailViewController:UIViewController{
 
         }
     }
+    func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+    
    
     
 }

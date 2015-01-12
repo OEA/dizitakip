@@ -529,6 +529,9 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="likeButtonTapped:" destination="Nfq-YE-AU4" eventType="touchUpInside" id="FId-tN-auD"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 Seasons 55 Episodes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JkJ-ta-Tld">
                                 <rect key="frame" x="138" y="112" width="235" height="21"/>
@@ -599,6 +602,7 @@
                         <outlet property="lblCast" destination="tYu-Nz-L8F" id="iny-YP-PyU"/>
                         <outlet property="lblGenres" destination="cpI-g9-3a5" id="Jn7-ub-0gu"/>
                         <outlet property="lblSeasonDetail" destination="JkJ-ta-Tld" id="Dwt-u5-l90"/>
+                        <outlet property="likeButton" destination="91f-qs-uZV" id="Z3t-06-LcR"/>
                         <outlet property="seriesImage" destination="49z-Fc-N8L" id="O1W-I8-paX"/>
                         <outlet property="seriesLabelTitle" destination="C6i-mF-vrX" id="hZR-n3-jmB"/>
                     </connections>
@@ -1174,6 +1178,6 @@
         <image name="Top_Charts" width="27" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="34V-8B-NvO"/>
+        <segue reference="rQ5-hc-NnU"/>
     </inferredMetricsTieBreakers>
 </document>

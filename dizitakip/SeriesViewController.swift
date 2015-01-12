@@ -82,10 +82,6 @@ class SeriesViewController : UITableViewController{
             likeAction = UITableViewRowAction(style: .Normal, title: "Unlike") { (action, indexPath) -> Void in
                 tableView.editing = false
                 self.seriesModel.likeSeries(SID, userId: UID)
-                tableView.beginUpdates()
-                self.series.removeAtIndex(indexPath.row)
-                tableView.deleteRowsAtIndexPaths([paths], withRowAnimation: .Fade)
-                tableView.endUpdates()
             }
             likeAction.backgroundColor = UIColorFromRGB(0xFF0000)
         }else{
