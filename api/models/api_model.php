@@ -311,6 +311,238 @@ class Api_Model extends CI_Model{
         return $data;
         
     }
+    public function likeEpisode($_apikey, $_apisecret, $_episodeId, $_userId){
+        
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        if($query->num_rows()>0){
+            $this->db->where('user_id',$_userId);
+            $query = $this->db->get("users_meta");
+            $query_object = $query->result()[0];
+            $newfavorites = "";
+            $isDeleted = false;
+            if($query->num_rows>0){
+                //update
+                $query_object = $query->result()[0];
+                if($query_object->user_favoritedepisodes==""){
+                        $data["status"] = "success";
+                        $data["code"] = 200;
+                        $data["message"] = "Liked";
+                    
+                    $datas = array(
+                            'user_favoritedepisodes' => $_episodeId,
+                    );
+                    $this->db->where('user_id', $_userId);
+                    $this->db->update('users_meta', $datas); 
+                }else{
+                    $favorites = explode(",",$query_object->user_favoritedepisodes);
+                    if(in_array($_episodeId, $favorites)){
+                        $isDeleted = true;
+                        $data["status"] = "error";
+                        $data["code"] = 200;
+                        $data["message"] = "Unliked";
+                    }
+                    if(!$isDeleted){
+                        $newfavorites = $query_object->user_favoritedepisodes.", ".$_episodeId;
+                        $data["status"] = "success";
+                        $data["code"] = 200;
+                        $data["message"] = "Liked";
+                    }else{
+                        
+                        for($i=0;$i<count($favorites);$i++){
+                            if(!($_episodeId==$favorites[$i])){
+                                if($i==0){
+                                    $newfavorites .= $favorites[$i];  
+                                }else{
+                                    $newfavorites .= ", ".$favorites[$i];  
+                                } 
+                            }
+                        }
+                    }
+                    
+                    $newfavorites = str_replace(' ','',$newfavorites);
+                    $datas = array(
+                            'user_favoritedepisodes' => $newfavorites,
+                    );
+                    $this->db->where('user_id', $_userId);
+                    $this->db->update('users_meta', $datas); 
+                   
+                }
+               
+            }else{
+                $data["status"] = "success";
+                $data["code"] = 200;
+                $data["message"] = "Liked";
+                //insert
+                
+                    $datas = array(
+                        'user_id' => $_userId,
+                        'user_favoritedepisodes' => $_episodeId,
+                    );	
+                $this->db->insert('users_meta', $datas); 
+            }
+            
+           
+            
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
+        
+    }
+    
+    public function isLikedEpisode($_apikey, $_apisecret, $_episodeId, $_userId){
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        if($query->num_rows()>0){
+            $this->db->where('user_id',$_userId);
+            $query = $this->db->get("users_meta");
+            $query_object = $query->result()[0];
+            $favorited_episodes = $query_object->user_favoritedepisodes;
+            $array_ids = explode(",", $favorited_episodes);
+           
+            
+            if(in_array($_episodeId, $array_ids)){
+                $data["status"] = "success";
+                $data["message"] = "isLiked";
+                $data["code"] = 200;
+            }else{
+                $data["status"] = "error";
+                $data["message"] = "isNotLiked";
+                $data["code"] = 200;
+            }
+           
+            
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
+        
+    }
+    public function watchEpisode($_apikey, $_apisecret, $_episodeId, $_userId){
+        
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        if($query->num_rows()>0){
+            $this->db->where('user_id',$_userId);
+            $query = $this->db->get("users_meta");
+            $query_object = $query->result()[0];
+            $newfavorites = "";
+            $isDeleted = false;
+            if($query->num_rows>0){
+                //update
+                $query_object = $query->result()[0];
+                if($query_object->user_watchedepisodes==""){
+                        $data["status"] = "success";
+                        $data["code"] = 200;
+                        $data["message"] = "Watched";
+                    
+                    $datas = array(
+                            'user_watchedepisodes' => $_episodeId,
+                    );
+                    $this->db->where('user_id', $_userId);
+                    $this->db->update('users_meta', $datas); 
+                }else{
+                    $favorites = explode(",",$query_object->user_watchedepisodes);
+                    if(in_array($_episodeId, $favorites)){
+                        $isDeleted = true;
+                        $data["status"] = "error";
+                        $data["code"] = 200;
+                        $data["message"] = "Unwatched";
+                    }
+                    if(!$isDeleted){
+                        $newfavorites = $query_object->user_watchedepisodes.", ".$_episodeId;
+                        $data["status"] = "success";
+                        $data["code"] = 200;
+                        $data["message"] = "Watched";
+                    }else{
+                        
+                        for($i=0;$i<count($favorites);$i++){
+                            if(!($_episodeId==$favorites[$i])){
+                                if($i==0){
+                                    $newfavorites .= $favorites[$i];  
+                                }else{
+                                    $newfavorites .= ", ".$favorites[$i];  
+                                } 
+                            }
+                        }
+                    }
+                    
+                    $newfavorites = str_replace(' ','',$newfavorites);
+                    $datas = array(
+                            'user_watchedepisodes' => $newfavorites,
+                    );
+                    $this->db->where('user_id', $_userId);
+                    $this->db->update('users_meta', $datas); 
+                   
+                }
+               
+            }else{
+                $data["status"] = "success";
+                $data["code"] = 200;
+                $data["message"] = "Watched";
+                //insert
+                
+                    $datas = array(
+                        'user_id' => $_userId,
+                        'user_watchedepisodes' => $_episodeId,
+                    );	
+                $this->db->insert('users_meta', $datas); 
+            }
+            
+           
+            
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
+        
+    }
+    
+    public function isWatchedEpisode($_apikey, $_apisecret, $_episodeId, $_userId){
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        if($query->num_rows()>0){
+            $this->db->where('user_id',$_userId);
+            $query = $this->db->get("users_meta");
+            $query_object = $query->result()[0];
+            $favorited_episodes = $query_object->user_watchedepisodes;
+            $array_ids = explode(",", $favorited_episodes);
+           
+            
+            if(in_array($_episodeId, $array_ids)){
+                $data["status"] = "success";
+                $data["message"] = "isWatched";
+                $data["code"] = 200;
+            }else{
+                $data["status"] = "error";
+                $data["message"] = "isNotWatched";
+                $data["code"] = 200;
+            }
+           
+            
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
+        
+    }
     
     public function getLikedSeries($_apikey, $_apisecret, $_userId){
         $this->db->where('api_key',$_apikey);
@@ -635,6 +867,35 @@ class Api_Model extends CI_Model{
             $data["status"] = "success";
             $data["code"] = 200;
             $data["result"] = $this->getCastsFromDB($_seriesId);
+ 
+        }else{
+            $data["status"] = "error";
+            $data["error_message"] = "You don't have any authorization to see.";
+            $data["code"] = 400;
+        }
+        return $data;
+    }
+    
+    public function getEpisodesFromDB($_seriesId, $_season){
+        $this->db->where('episode_seriesid',$_seriesId);
+        $this->db->where('episode_season',$_season);
+        $query = $this->db->get('episodes');
+        
+        foreach($query->result() as $result){
+            $result->episode_editedtime = $this->getTimeClearly(strtotime($result->episode_date));   
+        }
+        return $query->result();
+    }
+    public function getEpisodes($_apikey, $_apisecret, $_seriesId, $_season){
+        $this->db->where('api_key',$_apikey);
+        $this->db->where('api_secret',$_apisecret);
+        $query = $this->db->get('api');
+        
+        
+        if($query->num_rows()>0){
+            $data["status"] = "success";
+            $data["code"] = 200;
+            $data["result"] = $this->getEpisodesFromDB($_seriesId, $_season);
  
         }else{
             $data["status"] = "error";

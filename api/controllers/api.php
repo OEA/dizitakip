@@ -66,6 +66,45 @@ class Api extends CI_Controller {
         echo json_encode($data);   
     }
     
+    public function likeEpisode(){
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        $_episodeId = $this->input->get('episodeId',TRUE);
+        $_userId = $this->input->get('userId',TRUE);
+        
+        $data = $this->api->likeEpisode($_apikey, $_apisecret, $_episodeId, $_userId);
+        echo json_encode($data);   
+    }
+    
+    public function isLikedEpisode(){
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        $_epsiodeId = $this->input->get('episodeId',TRUE);
+        $_userId = $this->input->get('userId',TRUE);
+        
+        $data = $this->api->isLikedEpisode($_apikey, $_apisecret, $_epsiodeId, $_userId);
+        echo json_encode($data);  
+    }
+    public function watchEpisode(){
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        $_episodeId = $this->input->get('episodeId',TRUE);
+        $_userId = $this->input->get('userId',TRUE);
+        
+        $data = $this->api->watchEpisode($_apikey, $_apisecret, $_episodeId, $_userId);
+        echo json_encode($data);   
+    }
+    
+    public function isWatchedEpisode(){
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        $_epsiodeId = $this->input->get('episodeId',TRUE);
+        $_userId = $this->input->get('userId',TRUE);
+        
+        $data = $this->api->isWatchedEpisode($_apikey, $_apisecret, $_epsiodeId, $_userId);
+        echo json_encode($data);  
+    }
+    
     public function likedseries(){
         
         $_apikey = $this->input->get('apiKey',TRUE);
@@ -128,6 +167,17 @@ class Api extends CI_Controller {
         $_seriesId = $this->input->get('seriesId',TRUE);
     
         $data = $this->api->getCasts($_apikey, $_apisecret, $_seriesId);
+        echo json_encode($data);  
+    }
+    
+    public function getepisodes(){
+        
+        $_apikey = $this->input->get('apiKey',TRUE);
+        $_apisecret = $this->input->get('apiSecret',TRUE);
+        $_seriesId = $this->input->get('seriesId',TRUE);
+        $_season = $this->input->get('season',TRUE);
+    
+        $data = $this->api->getEpisodes($_apikey, $_apisecret, $_seriesId, $_season);
         echo json_encode($data);  
     }
 }
