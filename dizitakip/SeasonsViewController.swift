@@ -17,8 +17,10 @@ class SeasonViewController : UITableViewController{
     var seriesName: String!
     override func viewDidLoad() {
         seriesModel.setSeasons(seriesId)
+        
         seasons = seriesModel.seasons
-        title = seriesName
+        title = "Seas. of "+seriesName
+        
     }
     override func viewDidAppear(animated: Bool) {
         
@@ -38,5 +40,23 @@ class SeasonViewController : UITableViewController{
         cell.detailTextLabel!.text = seasons[indexPath.row]["episode_count"]
         
         return cell
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showEpisodes"{
+            
+            var newVC:EpisodeViewController = segue.destinationViewController as EpisodeViewController
+            
+            let cell = sender as UITableViewCell
+            let indexPath = tableView.indexPathForCell(cell)
+            
+            seriesModel.setEpisodes(seriesId, season: String(indexPath!.row+1))
+            
+            var episodes: [[String:String]]! = seriesModel.episodes
+            newVC.episodes = episodes
+            newVC.seriesTitle = seriesName
+            
+            
+        }
     }
 }

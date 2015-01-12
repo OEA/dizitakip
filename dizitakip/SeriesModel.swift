@@ -97,8 +97,8 @@ class SeriesModel{
         }
     }
     
-    func setEpisodes(seriesId: String, seasonId: String){
-        var apiUrl = baseApiUrl + "getepisodes?apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&seriesId="+String(seriesId) + "&seasonId="+seasonId
+    func setEpisodes(seriesId: String, season: String){
+        var apiUrl = baseApiUrl + "getepisodes?apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&seriesId="+seriesId + "&season="+season
         runUrl = apiUrl
         if let nsurl = NSURL(string: apiUrl) {
             
@@ -111,7 +111,7 @@ class SeriesModel{
                 
                 
                 if (status=="success" as String){
-                    recent = jsonDict["result"] as [[String:String]]
+                    episodes = jsonDict["result"] as [[String:String]]
                 }else{
                     errorMessage = jsonDict["error_message"] as String
                 }
@@ -228,11 +228,109 @@ class SeriesModel{
         }
     }
     
+    func likeEpisode(episodeId:String , userId: String){
+        
+        var apiUrl = baseApiUrl + "likeEpisode?apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&episodeId="+episodeId+"&userId=" + userId
+        runUrl = apiUrl
+        if let nsurl = NSURL(string: apiUrl) {
+            if let nsdata = NSData(contentsOfURL: nsurl) {
+                
+                println(apiUrl)
+                var jsonDict: [String:AnyObject]!
+                jsonDict = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions.AllowFragments, error: nil) as [String:AnyObject]
+                
+                var status = jsonDict["status"] as String
+                
+                
+                if (status=="success" as String){
+                    likedOrNot = jsonDict["message"] as String
+                }else{
+                    errorMessage = jsonDict["message"] as String
+                }
+                
+                
+            }
+        }
+    }
+    
     func isLikedSeries(seriesId: Int, userId:Int) -> Bool{
         var strSID: String = String(seriesId)
         var strUID: String = String(userId)
         
         var apiUrl = baseApiUrl + "isLikedSeries?apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&seriesId="+strSID+"&userId=" + strUID
+        runUrl = apiUrl
+        if let nsurl = NSURL(string: apiUrl) {
+            if let nsdata = NSData(contentsOfURL: nsurl) {
+                
+                var jsonDict: [String:AnyObject]!
+                jsonDict = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions.AllowFragments, error: nil) as [String:AnyObject]
+                
+                var status = jsonDict["status"] as String
+                
+                
+                if (status=="success" as String){
+                    return true
+                }else{
+                    
+                }
+                
+            }
+        }
+        return false
+    }
+    
+    func isLikedEpisode(episodeId: String, userId:String) -> Bool{
+        
+        var apiUrl = baseApiUrl + "isLikedEpisode?apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&episodeId="+episodeId+"&userId=" + userId
+        runUrl = apiUrl
+        if let nsurl = NSURL(string: apiUrl) {
+            if let nsdata = NSData(contentsOfURL: nsurl) {
+                
+                var jsonDict: [String:AnyObject]!
+                jsonDict = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions.AllowFragments, error: nil) as [String:AnyObject]
+                
+                var status = jsonDict["status"] as String
+                
+                
+                if (status=="success" as String){
+                    return true
+                }else{
+                    
+                }
+                
+            }
+        }
+        return false
+    }
+    
+    func watchEpisode(episodeId:String , userId: String){
+        
+        var apiUrl = baseApiUrl + "watchEpisode?apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&episodeId="+episodeId+"&userId=" + userId
+        runUrl = apiUrl
+        if let nsurl = NSURL(string: apiUrl) {
+            if let nsdata = NSData(contentsOfURL: nsurl) {
+                
+                println(apiUrl)
+                var jsonDict: [String:AnyObject]!
+                jsonDict = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions.AllowFragments, error: nil) as [String:AnyObject]
+                
+                var status = jsonDict["status"] as String
+                
+                
+                if (status=="success" as String){
+                    likedOrNot = jsonDict["message"] as String
+                }else{
+                    errorMessage = jsonDict["message"] as String
+                }
+                
+                
+            }
+        }
+    }
+    
+    func isWatchedEpisode(episodeId: String, userId:String) -> Bool{
+        
+        var apiUrl = baseApiUrl + "isWatchedEpisode?apiKey=" + apiKey + "&apiSecret=" + apiSecret + "&episodeId="+episodeId+"&userId=" + userId
         runUrl = apiUrl
         if let nsurl = NSURL(string: apiUrl) {
             if let nsdata = NSData(contentsOfURL: nsurl) {
